@@ -30,6 +30,7 @@ type Result struct {
 func TestInterface(t *testing.T) {
 	testRouter := SetupServer()
 	mockService := &mocks.ExampleService{}
+	// Get service return 값 11로 변경.
 	mockService.On("Get", 1).Return(11)
 	service.SetExampleService(mockService)
 
@@ -44,5 +45,6 @@ func TestInterface(t *testing.T) {
 	var result Result
 	bodyByte, _ := ioutil.ReadAll(resp.Body)
 	json.Unmarshal(bodyByte, &result)
+	// 실 서비스에선 1을 return하는데, test에서는 11을 return함.
 	assert.Equal(t, 11, result.Data)
 }
